@@ -1,3 +1,4 @@
+'use strict';
 const React = require('react');
 
 class GameServers extends React.Component {
@@ -14,7 +15,7 @@ class GameServers extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    { this.props.gameServers.map(gameServer => this.renderGameServer(gameServer)) }
+                    { this.props.gameServers.map(this.renderGameServer) }
                 </tbody>
                 <tfoot>
                     <tr>

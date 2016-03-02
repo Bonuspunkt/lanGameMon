@@ -7,13 +7,23 @@ const url = require('url');
 const send = require('send');
 
 const wsHelper = require('./lib/wsHelper');
-
+const renderIndex = require('./lib/renderIndex');
 const wwwRoot = path.resolve(__dirname, 'wwwRoot');
 
 let gameServers = [];
 
 const server = http.createServer();
 server.on('request', (req, res) => {
+    if (req.url === '/') {
+        res.writeHead(200, { 'content-type': 'text/html' });
+        res.end(
+            renderIndex({
+                hostname: req.headers.host,
+                gameServers: gameServers
+            })
+        );
+        return;
+    }
     send(req, url.parse(req.url).pathname, { root: wwwRoot }).pipe(res);
 });
 server.on('upgrade', (req, socket, head) => {
@@ -33,7 +43,7 @@ server.on('upgrade', (req, socket, head) => {
     };
 
     let wsInterval = setInterval(updateClient, 60e3);
-    updateClient();
+    //updateClient();
 });
 
 server.listen(8080);
@@ -54,7 +64,14 @@ serverList.on('update', server => {
     }
     gameServers.push(server);
 
-    gameServers = gameServers.filter(g => g.lastUpdate + 60e3 > Date.now());
-
+    gameServers = gameServers
+        .filter(g => g.lastUpdate + 60e3 > Date.now())
+        .sort((a, b) => {
+            if (a.players > b.players)
+                return -1;
+            if (a.players < b.players)
+                return 1;
+            return a.name.localeCompare(b.name);
+        });
 });
 serverList.start();

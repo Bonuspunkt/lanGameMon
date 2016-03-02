@@ -1,12 +1,12 @@
 'use strict';
 
-// XXX
+// hook up info boxes
 const h2s = Array.from(document.querySelectorAll('h2'));
 h2s.map(h2 => h2.nextElementSibling).forEach(body => body.style.display = 'none');
 h2s.map(h2 => h2.addEventListener('click', function() {
     const div = h2.nextElementSibling;
     div.style.display = div.style.display == 'none' ? 'block' : 'none';
-}))
+}));
 
 
 require('./index.styl');
@@ -23,17 +23,11 @@ const initWebSocketConnection = () => {
         const data = JSON.parse(e.data)
 
         if (data.gameServers) {
-            const gameServers = data.gameServers.sort((a, b) => {
-                if (a.players > b.players)
-                    return -1;
-                if (a.players < b.players)
-                    return 1;
-                return a.name.localeCompare(b.name);
-            });
+            const gameServers = data.gameServers;
 
             ReactDOM.render(
                 <GameServers
-                    gameServers={gameServers}
+                    gameServers={ data.gameServers }
                     lastUpdated={ new Date() } />,
                 document.getElementById('servers')
             );
@@ -43,5 +37,3 @@ const initWebSocketConnection = () => {
     webSocket.addEventListener('error', () => setTimeout(initWebSocketConnection, 5e3));
 }
 initWebSocketConnection()
-
-document.getElementById('location').textContent = location.href;
