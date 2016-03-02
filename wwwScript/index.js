@@ -1,0 +1,47 @@
+'use strict';
+
+// XXX
+const h2s = Array.from(document.querySelectorAll('h2'));
+h2s.map(h2 => h2.nextElementSibling).forEach(body => body.style.display = 'none');
+h2s.map(h2 => h2.addEventListener('click', function() {
+    const div = h2.nextElementSibling;
+    div.style.display = div.style.display == 'none' ? 'block' : 'none';
+}))
+
+
+require('./index.styl');
+
+const React = require('react');
+const ReactDOM = require('react-dom');
+const GameServers = require('./component/gameServers')
+
+const webSocketAddress = window.location.href.replace(/^http/, 'ws');
+
+const initWebSocketConnection = () => {
+    const webSocket = new WebSocket(webSocketAddress);
+    webSocket.addEventListener('message', e => {
+        const data = JSON.parse(e.data)
+
+        if (data.gameServers) {
+            const gameServers = data.gameServers.sort((a, b) => {
+                if (a.players > b.players)
+                    return -1;
+                if (a.players < b.players)
+                    return 1;
+                return a.name.localeCompare(b.name);
+            });
+
+            ReactDOM.render(
+                <GameServers
+                    gameServers={gameServers}
+                    lastUpdated={ new Date() } />,
+                document.getElementById('servers')
+            );
+        }
+    });
+    webSocket.addEventListener('close', () => setTimeout(initWebSocketConnection, 5e3));
+    webSocket.addEventListener('error', () => setTimeout(initWebSocketConnection, 5e3));
+}
+initWebSocketConnection()
+
+document.getElementById('location').textContent = location.href;

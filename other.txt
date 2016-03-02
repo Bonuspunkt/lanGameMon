@@ -1,0 +1,17 @@
+
+- Battlefield 1942
+gamedig --type bf1942 --host 94.23.196.155 --port 14567
+- Battlefield Vietnam
+gamedig --type bfv --host 8.9.30.43 --port 15567
+- COD2
+gamedig --type cod2 --host 64.94.238.161 --port 28960
+- CS:GO
+gamedig --type csgo --host 216.52.148.47 --port 27015
+- UT2004
+gamedig --type ut2004 --host mc.example.com --port 11234
+
+- QW
+gamedig --type quake1 --host 74.86.171.201 --port 27500
+
+- Q3A
+gamedig --type quake3 --host cpma.abusing.me
