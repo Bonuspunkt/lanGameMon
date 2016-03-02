@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // start http server
 const http = require('http');
@@ -6,7 +6,7 @@ const path = require('path');
 const url = require('url');
 const send = require('send');
 
-const wsHelper = require('./wsHelper');
+const wsHelper = require('./lib/wsHelper');
 
 const wwwRoot = path.resolve(__dirname, 'wwwRoot');
 
@@ -39,7 +39,7 @@ server.on('upgrade', (req, socket, head) => {
 server.listen(8080);
 
 // start serverlist
-const ServerList = require('./ServerList');
+const ServerList = require('./lib/ServerList');
 let serverList = new ServerList();
 serverList.on('update', server => {
     server.lastUpdate = Date.now();
