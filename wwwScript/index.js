@@ -1,5 +1,8 @@
 'use strict';
 
+require('babel-polyfill');
+require('./index.styl');
+
 // hook up info boxes
 const h2s = Array.from(document.querySelectorAll('h2'));
 h2s.map(h2 => h2.nextElementSibling).forEach(body => body.style.display = 'none');
@@ -9,7 +12,6 @@ h2s.map(h2 => h2.addEventListener('click', function() {
 }));
 
 
-require('./index.styl');
 
 const React = require('react');
 const ReactDOM = require('react-dom');
@@ -34,6 +36,6 @@ const initWebSocketConnection = () => {
         }
     });
     webSocket.addEventListener('close', () => setTimeout(initWebSocketConnection, 5e3));
-    webSocket.addEventListener('error', () => setTimeout(initWebSocketConnection, 5e3));
+    webSocket.addEventListener('error', () => webSocket.close());
 }
 initWebSocketConnection()
