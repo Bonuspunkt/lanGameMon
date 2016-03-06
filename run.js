@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict';
 
 // start http server
@@ -15,7 +16,10 @@ let gameServers = [];
 const server = http.createServer();
 server.on('request', (req, res) => {
     if (req.url === '/') {
-        res.writeHead(200, { 'content-type': 'text/html' });
+        res.writeHead(200, {
+            'content-type': 'text/html',
+            'cache-control': 'public, max-age=15'
+        });
         res.end(
             renderIndex({
                 hostname: req.headers.host,
@@ -24,7 +28,10 @@ server.on('request', (req, res) => {
         );
         return;
     }
-    send(req, url.parse(req.url).pathname, { root: wwwRoot }).pipe(res);
+    send(req, url.parse(req.url).pathname, {
+        root: wwwRoot,
+        maxAge: '1m'
+    }).pipe(res);
 });
 server.on('upgrade', (req, socket, head) => {
     if (req.url !== '/') {
@@ -43,10 +50,10 @@ server.on('upgrade', (req, socket, head) => {
     };
 
     let wsInterval = setInterval(updateClient, 60e3);
-    //updateClient();
 });
 
-server.listen(8080);
+server.listen(8080, '127.0.0.1');
+console.log('webserver running at http://127.0.0.1:8080/');
 
 // start serverlist
 const ServerList = require('./lib/ServerList');
