@@ -49,7 +49,7 @@ server.on('upgrade', (req, socket, head) => {
         }
     };
 
-    let wsInterval = setInterval(updateClient, 60e3);
+    let wsInterval = setInterval(updateClient, 30e3);
 });
 
 server.listen(8080, '127.0.0.1');

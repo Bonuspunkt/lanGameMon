@@ -15,9 +15,48 @@ monitoring lan games
 - Trackmania
 - ...
 
-## setup nginx as reverse proxy with caching and gzip
-### nginx site config (usually `/etc/nginx/sites-enabled/default`)
+# setup
+this is how i setup my server, adapt as needed
+
+## setup node
+```shell
+wget https://raw.githubusercontent.com/isaacs/nave/master/nave.sh
+chmod +x nave.sh
+./nave.sh usemain latest
+
 ```
+
+## clone repo
+```
+cd /opt
+git clone <pathToLanGameMon>
+cd lanGameMon
+npm i
+```
+## generated script & stylesheet
+```
+npm run pack
+```
+
+## setup autostart
+
+usually i create a user with
+``` shell
+adduser --no-create-home --system lanGameMon
+```
+and add a cron job for him with
+``` shell
+crontab -u lanGameMon -e
+```
+which goes like
+``` crontab
+@reboot /opt/lanGameMon/run.sh
+```
+adapt `run.sh` as needed
+
+## setup nginx as reverse proxy with caching and gzip
+merge the following config in the nginx site config (usually `/etc/nginx/sites-enabled/default`)
+``` conf
 proxy_cache_path /tmp/nginx levels=1:2 keys_zone=lanGameMon:10m max_size=10g inactive=60m;
 
 server {
