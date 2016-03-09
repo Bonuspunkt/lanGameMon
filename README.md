@@ -1,5 +1,8 @@
-# lanGameMon
+# LanGameMon
 monitoring lan games
+
+### how does it work
+udp packets to 255.255.255.255
 
 ## supported protocols
 - QuakeWorld
@@ -8,11 +11,14 @@ monitoring lan games
 - Value Query Protocol
 - UT2004
 
+## kinda supported
+- Trackmania
+    (needs xml-rpc at port 5000 )
+
 ## still fiddling with
 - Blur
 - Flatout 2
 - Grid
-- Trackmania
 - ...
 
 # setup

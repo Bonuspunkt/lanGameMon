@@ -2,7 +2,7 @@
   "name": "lanGameMon",
   "version": "1.0.0",
   "description": "",
-  "main": "run.js",
+  "main": "index.js",
   "dependencies": {
     "gbxremote": "^0.2.1",
     "node-jsx-babel": "^0.14.2",
