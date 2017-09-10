@@ -1,4 +1,6 @@
 # LanGameMon
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/Bonuspunkt/lanGameMon.svg)](https://greenkeeper.io/)
 monitoring lan games
 
 ### how does it work
